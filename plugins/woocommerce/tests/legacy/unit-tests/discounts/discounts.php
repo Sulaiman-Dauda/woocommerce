@@ -300,6 +300,7 @@ class WC_Tests_Discounts extends WC_Unit_Test_Case {
 		foreach ( $all_discounts as $code_name => $discounts_by_coupon ) {
 			$discount_total += array_sum( $discounts_by_coupon );
 		}
+		$discount_total = round( $discount_total, 2 );
 
 		$this->assertEquals( $test_data['expected_total_discount'], $discount_total, 'Failed (' . print_r( $test_data, true ) . ' - ' . print_r( $discounts->get_discounts(), true ) . ')' );
 	}
@@ -831,7 +832,7 @@ class WC_Tests_Discounts extends WC_Unit_Test_Case {
 							'amount'        => '20',
 						),
 					),
-					'expected_total_discount' => 16.75,
+					'expected_total_discount' => 16.76,
 				),
 			),
 			array(
@@ -986,7 +987,7 @@ class WC_Tests_Discounts extends WC_Unit_Test_Case {
 							'amount'        => '20',
 						),
 					),
-					'expected_total_discount' => 20.35,
+					'expected_total_discount' => 20.36,
 				),
 			),
 			array(

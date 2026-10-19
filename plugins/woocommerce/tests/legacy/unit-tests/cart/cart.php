@@ -349,7 +349,7 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 	public function test_cart_get_discounted_price_issue_11626() {
 		$expected_values = array(
 			1 => '13.90', // Tax exempt customer: all the prices without tax, then halved, i.e. sum = 33.09, sum_w/o_tax = 27.807, halved = 13.9035.
-			0 => '16.55', // Normal customer: all the prices halved, i.e. sum = 33.09, halved = 16.545.
+			0 => '16.54', // Normal customer: all the prices halved, i.e. sum = 33.09, halved = 16.545, and the discount takes the half cent.
 		);
 
 		// Create dummy coupon - fixed cart, 1 value.
@@ -443,7 +443,7 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 
 		WC()->cart->calculate_totals();
 		$cart_item = current( WC()->cart->get_cart() );
-		$this->assertEquals( '24.51', number_format( $cart_item['line_total'], 2, '.', '' ) );
+		$this->assertEquals( '24.50', number_format( $cart_item['line_total'], 2, '.', '' ) );
 	}
 
 	/**
@@ -605,9 +605,9 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->add_discount( $half_coupon->get_code() );
 		WC()->cart->calculate_totals();
 		$this->assertEquals( '8.33', wc_format_decimal( WC()->cart->get_subtotal(), 2 ) );
-		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
 		$this->assertEquals( '0.83', wc_format_decimal( WC()->cart->get_total_tax(), 2 ) );
-		$this->assertEquals( '5.00', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
+		$this->assertEquals( '4.99', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
 		WC()->cart->remove_coupons();
 
 		// Test in store location with 100% coupon.
@@ -644,9 +644,9 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->add_discount( $half_coupon->get_code() );
 		WC()->cart->calculate_totals();
 		$this->assertEquals( '8.33', wc_format_decimal( WC()->cart->get_subtotal(), 2 ) );
-		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
 		$this->assertEquals( '0.83', wc_format_decimal( WC()->cart->get_total_tax(), 2 ) );
-		$this->assertEquals( '5.00', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
+		$this->assertEquals( '4.99', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
 		WC()->cart->remove_coupons();
 
 		// Test out of store location with 100% coupon.
@@ -750,9 +750,9 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->add_discount( $half_coupon->get_code() );
 		WC()->cart->calculate_totals();
 		$this->assertEquals( '8.33', wc_format_decimal( WC()->cart->get_subtotal(), 2 ) );
-		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
 		$this->assertEquals( '0.00', wc_format_decimal( WC()->cart->get_total_tax(), 2 ) );
-		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
+		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
 		WC()->cart->remove_coupons();
 
 		// Test in store location with 100% coupon.
@@ -789,9 +789,9 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->add_discount( $half_coupon->get_code() );
 		WC()->cart->calculate_totals();
 		$this->assertEquals( '8.33', wc_format_decimal( WC()->cart->get_subtotal(), 2 ) );
-		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
 		$this->assertEquals( '0.00', wc_format_decimal( WC()->cart->get_total_tax(), 2 ) );
-		$this->assertEquals( '4.17', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
+		$this->assertEquals( '4.16', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
 		WC()->cart->remove_coupons();
 
 		// Test out of store location with 100% coupon.
@@ -892,9 +892,9 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->add_discount( $half_coupon->get_code() );
 		WC()->cart->calculate_totals();
 		$this->assertEquals( '20.83', wc_format_decimal( WC()->cart->get_subtotal(), 2 ) );
-		$this->assertEquals( '10.41', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '10.42', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
 		$this->assertEquals( '0.00', wc_format_decimal( WC()->cart->get_total_tax(), 2 ) );
-		$this->assertEquals( '10.42', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
+		$this->assertEquals( '10.41', wc_format_decimal( WC()->cart->get_total( 'edit' ), 2 ) );
 		WC()->cart->remove_coupons();
 
 		// Test out of store location with 100% coupon.
@@ -2146,7 +2146,7 @@ class WC_Tests_Cart extends WC_Unit_Test_Case {
 		WC()->cart->calculate_totals();
 		remove_action( 'woocommerce_cart_calculate_fees', array( $this, 'add_fee_1_5_to_cart' ) );
 
-		$this->assertEquals( 70.86, WC()->cart->get_total( 'edit' ) );
+		$this->assertEquals( 70.85, WC()->cart->get_total( 'edit' ) );
 	}
 
 	/**

@@ -1,0 +1,4 @@
+Significance: patch
+Type: fix
+
+Round coupon discounts that land exactly on half a cent up instead of down.

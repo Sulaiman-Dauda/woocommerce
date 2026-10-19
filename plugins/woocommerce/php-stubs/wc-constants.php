@@ -16,7 +16,7 @@ define( 'WC_PLUGIN_BASENAME', '' );
 define( 'WC_VERSION', '' );
 define( 'WOOCOMMERCE_VERSION', '' );
 define( 'WC_ROUNDING_PRECISION', 6 );
-define( 'WC_DISCOUNT_ROUNDING_MODE', 2 );
+define( 'WC_DISCOUNT_ROUNDING_MODE', 1 );
 define( 'WC_TAX_ROUNDING_MODE', 1 );
 define( 'WC_DELIMITER', '|' );
 define( 'WC_SESSION_CACHE_GROUP', 'wc_session_id' );

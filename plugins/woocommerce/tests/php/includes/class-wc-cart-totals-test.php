@@ -574,4 +574,34 @@ class WC_Cart_Totals_Tests extends WC_Unit_Test_Case {
 		$product->delete( true );
 		$coupon->delete( true );
 	}
+
+	/**
+	 * A percent discount of exactly half a cent rounds up.
+	 *
+	 * @link https://github.com/woocommerce/woocommerce/issues/51212.
+	 */
+	public function test_percent_discount_rounds_half_up() {
+		update_option( 'woocommerce_calc_taxes', 'no' );
+		WC()->cart->empty_cart();
+
+		$product = WC_Helper_Product::create_simple_product( true, array( 'regular_price' => '12.35' ) );
+		$coupon  = WC_Helper_Coupon::create_coupon(
+			'ten-off',
+			array(
+				'discount_type' => 'percent',
+				'coupon_amount' => '10',
+			)
+		);
+
+		WC()->cart->add_to_cart( $product->get_id(), 1 );
+		WC()->cart->apply_coupon( $coupon->get_code() );
+		WC()->cart->calculate_totals();
+
+		$this->assertEquals( '1.24', wc_format_decimal( WC()->cart->get_discount_total(), 2 ) );
+		$this->assertEquals( '11.11', WC()->cart->get_total( 'edit' ) );
+
+		WC()->cart->empty_cart();
+		$product->delete( true );
+		$coupon->delete( true );
+	}
 }
